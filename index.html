@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="ca">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Repetidor Català: Verb Drills</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body class="min-h-screen flex flex-col items-center justify-center p-4 text-gray-800">
+
+<!-- Onboarding Modal (Appears first) -->
+<div id="onboarding-modal" class="fixed inset-0 flex items-center justify-center p-4 transition-opacity duration-300">
+    <div class="bg-white border-t-8 border-indigo-600 p-8 rounded-3xl shadow-2xl max-w-md w-full text-center transform transition-all scale-100">
+        <div class="mb-6 flex justify-center">
+            <span class="text-6xl">🟡🔴</span>
+        </div>
+        <h2 class="text-3xl font-extrabold text-gray-900 mb-3 tracking-tight">Repetidor Català</h2>
+        <p class="text-lg text-gray-600 mb-8 font-medium">Entrenament intensiu de verbs i gramàtica mitjançant repetició i immersió.</p>
+
+        <div class="bg-indigo-50 rounded-xl p-5 mb-8 text-left">
+            <ul class="space-y-3 text-sm text-indigo-900 font-medium">
+                <li class="flex items-start"><span class="mr-2">✨</span> Immersió total en català</li>
+                <li class="flex items-start"><span class="mr-2">🧠</span> Drills de conjugació ràpida</li>
+                <li class="flex items-start"><span class="mr-2">🔄</span> Transformació de frases</li>
+                <li class="flex items-start"><span class="mr-2">🎯</span> 18 Unitats progressives</li>
+            </ul>
+        </div>
+
+        <button
+                id="start-learning-button"
+                class="w-full py-4 px-6 bg-indigo-600 text-white font-bold text-lg rounded-xl shadow-lg hover:bg-indigo-700 hover:shadow-xl transition duration-200 transform hover:-translate-y-1 active:scale-95"
+                onclick="startLearning()"
+        >
+            Comença a Aprendre
+        </button>
+    </div>
+</div>
+
+<!-- Unit Selector Screen -->
+<div id="unit-selector" class="app-container w-full hidden pb-12">
+    <div class="text-center mb-10 mt-4">
+        <h2 class="text-4xl font-black text-gray-900 mb-2">Unitats</h2>
+        <p class="text-gray-500 font-medium">Selecciona un tema per començar</p>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <!-- Units will be injected here by JS for cleaner HTML -->
+        <div id="units-grid-container" class="contents"></div>
+    </div>
+
+    <!-- All Drills Button -->
+    <div class="mt-8">
+        <button
+                onclick="showExplanation('all')"
+                class="w-full p-6 bg-gray-800 text-white rounded-2xl shadow-lg hover:bg-gray-900 transition duration-200 flex items-center justify-between group"
+        >
+            <div class="text-left">
+                <h3 class="text-xl font-bold">Mode Repàs Total</h3>
+                <p class="text-gray-400 text-sm mt-1">Barreja de les 18 unitats (200+ exercicis)</p>
+            </div>
+            <span class="text-2xl group-hover:translate-x-2 transition-transform">🚀</span>
+        </button>
+    </div>
+</div>
+
+<!-- Explanation View (New) -->
+<div id="explanation-view" class="app-container w-full bg-white shadow-2xl rounded-3xl overflow-hidden hidden flex flex-col min-h-[600px] p-6 md:p-8">
+    <div class="flex-grow flex flex-col items-center text-center">
+        <div class="w-16 h-16 rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm transition-theme" id="exp-icon-bg">
+            📖
+        </div>
+        <h2 id="exp-title" class="text-3xl font-black text-gray-900 mb-2">Unit Title</h2>
+        <p id="exp-subtitle" class="text-gray-400 font-medium mb-6 text-sm uppercase tracking-wider">Grammar Focus</p>
+
+        <div id="exp-body" class="explanation-content text-left text-gray-700 leading-relaxed bg-gray-50 p-6 rounded-2xl border border-gray-100 w-full overflow-y-auto max-h-[400px] shadow-inner">
+            <!-- Content injected via JS -->
+        </div>
+    </div>
+
+    <div class="mt-6 space-y-3 pt-4 border-t border-gray-100">
+        <button
+                id="exp-start-btn"
+                onclick="initDrills()"
+                class="w-full py-4 px-6 text-white font-bold text-lg rounded-xl shadow-lg transition duration-200 hover:-translate-y-1 transform active:scale-95 transition-theme"
+        >
+            Entesos! Comença els Exercicis
+        </button>
+        <button
+                onclick="returnToSelector()"
+                class="w-full py-3 px-6 text-gray-400 font-semibold rounded-xl hover:text-gray-600 transition text-sm"
+        >
+            Torna al menú
+        </button>
+    </div>
+</div>
+
+<!-- Main Drill View -->
+<div id="drill-view" class="app-container w-full bg-white shadow-2xl rounded-3xl overflow-hidden hidden flex flex-col min-h-[600px]">
+
+    <!-- Header -->
+    <header id="app-header" class="p-6 text-white flex justify-between items-start transition-theme bg-indigo-600">
+        <div class="flex-1 pr-4">
+            <h1 class="text-2xl font-bold leading-tight" id="unit-title">Catalan Drills</h1>
+            <p class="text-white/80 text-sm mt-1 font-medium" id="unit-subtitle">Selecciona una unitat</p>
+        </div>
+        <div class="flex flex-col items-end">
+            <button
+                    onclick="returnToSelector()"
+                    class="p-2 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-lg text-white transition mb-2"
+                    aria-label="Tancar"
+            >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+            </button>
+            <span id="user-id" class="text-[10px] uppercase tracking-wider opacity-60 font-mono">Loading...</span>
+        </div>
+    </header>
+
+    <!-- Progress Bar -->
+    <div class="h-1.5 w-full bg-gray-100">
+        <div id="progress-bar" class="h-full bg-green-500 transition-all duration-500 ease-out" style="width: 0%;"></div>
+    </div>
+
+    <!-- Main Drill Area -->
+    <main class="p-6 flex-grow flex flex-col">
+
+        <!-- Score Counter -->
+        <div class="flex justify-between items-center mb-6 text-sm font-bold text-gray-400 uppercase tracking-wide">
+            <span>Progrés</span>
+            <span><span id="drill-count" class="text-gray-800">0</span> / <span id="total-drills">0</span></span>
+        </div>
+
+        <!-- Drill Card -->
+        <div id="drill-card" class="bg-gray-50 border-2 border-gray-100 p-8 rounded-2xl shadow-sm mb-6 flex flex-col items-center justify-center min-h-[180px] transition-theme text-center">
+            <div id="drill-type-badge" class="mb-3 px-3 py-1 bg-white rounded-full text-xs font-bold uppercase tracking-wider shadow-sm text-gray-500 border border-gray-200">
+                Preparat?
+            </div>
+            <div id="current-prompt" class="text-2xl md:text-3xl font-bold text-gray-800 leading-tight mb-2">
+                Carregant...
+            </div>
+            <div id="drill-hint" class="text-sm text-gray-500 font-medium italic mt-2"></div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="space-y-4 mb-auto">
+            <input
+                    type="text"
+                    id="user-input"
+                    placeholder="Escriu la resposta..."
+                    class="w-full p-4 text-lg border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 transition-all duration-200 text-center font-medium placeholder-gray-300 disabled:bg-gray-50 disabled:text-gray-400"
+                    disabled
+                    autocomplete="off"
+                    spellcheck="false"
+            >
+
+            <div id="feedback" class="hidden p-4 rounded-xl text-center font-bold animate-fade-in"></div>
+
+            <button
+                    id="action-button"
+                    class="w-full py-4 px-6 bg-indigo-600 text-white font-bold text-lg rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 disabled:opacity-50 disabled:transform-none disabled:shadow-none"
+                    onclick="handleActionButton()"
+                    disabled
+            >
+                Comprova
+            </button>
+        </div>
+
+        <!-- Reference Table Toggle -->
+        <div class="mt-8 pt-6 border-t border-gray-100">
+            <button onclick="toggleReference()" class="text-xs font-bold text-gray-400 hover:text-gray-600 uppercase tracking-widest w-full text-center flex items-center justify-center gap-2 transition-colors">
+                <span id="ref-toggle-icon">Show</span> Taula de Referència
+            </button>
+
+            <div id="reference-area" class="hidden mt-4 animate-fade-in">
+                <div class="reference-table-container bg-white">
+                    <table class="w-full text-left text-gray-600">
+                        <thead id="ref-table-head" class="text-xs text-white uppercase bg-gray-800 sticky top-0">
+                        <!-- Headers injected by JS -->
+                        </thead>
+                        <tbody class="divide-y divide-gray-100">
+                        <!-- Rows -->
+                        <tr class="hover:bg-gray-50"><td class="py-3 px-4 font-bold text-gray-900 bg-gray-50 sticky left-0 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]">Jo</td><td>sóc/estic</td><td>vaig anar</td><td>he fet</td><td>podré</td><td>era/anava</td><td>faria/podria</td><td>vulgui/sigui</td><td>volgués</td><td>hauria fet</td><td>tinc/he</td><td>puc/vull</td><td>vaig/vinc</td><td>faig/dic</td><td>parlo/em rento</td></tr>
+                        <tr class="hover:bg-gray-50"><td class="py-3 px-4 font-bold text-gray-900 bg-gray-50 sticky left-0 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]">Tu</td><td>ets/estàs</td><td>vas anar</td><td>has fet</td><td>podràs</td><td>eres/anaves</td><td>faries/podries</td><td>vulguis/siguis</td><td>volguessis</td><td>hauries fet</td><td>tens/has</td><td>pots/vols</td><td>vas/vens</td><td>fais(fas)/dius</td><td>parles/et rentes</td></tr>
+                        <tr class="hover:bg-gray-50"><td class="py-3 px-4 font-bold text-gray-900 bg-gray-50 sticky left-0 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]">Ell/Ella</td><td>és/està</td><td>va anar</td><td>ha fet</td><td>podrà</td><td>era/anava</td><td>faria/podria</td><td>vulgui/sigui</td><td>volgués</td><td>hauria fet</td><td>té/ha</td><td>pot/vol</td><td>va/veu</td><td>fa/diu</td><td>parla/es renta</td></tr>
+                        <tr class="hover:bg-gray-50"><td class="py-3 px-4 font-bold text-gray-900 bg-gray-50 sticky left-0 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]">Nosaltres</td><td>som/estem</td><td>vam anar</td><td>hem fet</td><td>podrem</td><td>érem/anàvem</td><td>faríem/podríem</td><td>vulguem/siguem</td><td>volguéssim</td><td>hauríem fet</td><td>tenim/hem</td><td>podem/volem</td><td>anem/venim</td><td>fem/diem</td><td>parlem/ens rentem</td></tr>
+                        <tr class="hover:bg-gray-50"><td class="py-3 px-4 font-bold text-gray-900 bg-gray-50 sticky left-0 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]">Vosaltres</td><td>sou/esteu</td><td>vau anar</td><td>heu fet</td><td>podreu</td><td>éreu/anàveu</td><td>faríeu/podríeu</td><td>vulgueu/sigueu</td><td>volguéssiu</td><td>hauríeu fet</td><td>teniu/heu</td><td>podeu/voleu</td><td>aneu/veniu</td><td>feu/dieueu</td><td>parleu/us renteu</td></tr>
+                        <tr class="hover:bg-gray-50"><td class="py-3 px-4 font-bold text-gray-900 bg-gray-50 sticky left-0 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]">Ells/Elles</td><td>són/estan</td><td>van anar</td><td>han fet</td><td>podran</td><td>eren/anaven</td><td>farien/podrien</td><td>vulguin/siguin</td><td>volguessin</td><td>haurien fet</td><td>tenen/han</td><td>poden/volen</td><td>van/vénen</td><td>fan/diuen</td><td>parlen/es renten</td></tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+<!-- Firebase SDK -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+    import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+    import { getFirestore } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+    const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
+    const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
+    const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
+
+    // Basic initialization - robust to missing config for pure UI testing
+    if (firebaseConfig) {
+        try {
+            const app = initializeApp(firebaseConfig);
+            const auth = getAuth(app);
+            const db = getFirestore(app);
+
+            if (initialAuthToken) {
+                signInWithCustomToken(auth, initialAuthToken);
+            } else {
+                signInAnonymously(auth);
+            }
+
+            onAuthStateChanged(auth, (user) => {
+                if (user) {
+                    document.getElementById('user-id').textContent = user.uid.substring(0, 6);
+                }
+            });
+        } catch (e) {
+            console.error("Firebase Init Error:", e);
+            document.getElementById('user-id').textContent = "Offline";
+        }
+    } else {
+        document.getElementById('user-id').textContent = "Demo Mode";
+    }
+</script>
+
+<script src="./index.js" defer></script>
+</body>
+</html>
