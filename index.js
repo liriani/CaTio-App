@@ -1013,7 +1013,7 @@ function init() {
     activeQueue = [];
     const id = currentUnitId;
 
-  els.card.innerHTML = `
+    els.card.innerHTML = `
                 <div id="drill-type-badge" class="mb-3 px-3 py-1 bg-white rounded-full text-xs font-bold uppercase tracking-wider shadow-sm text-gray-500 border border-gray-200">
                     Preparat?
                 </div>
@@ -1022,22 +1022,21 @@ function init() {
                 </div>
                 <div id="drill-hint" class="text-sm text-gray-500 font-medium italic mt-2"></div>
             `;
-
     els.prompt = document.getElementById('current-prompt');
     els.hint = document.getElementById('drill-hint');
     els.badge = document.getElementById('drill-type-badge');
 
     if (id === 'all') {
-    Object.values(units).forEach(u => activeQueue.push(...u.drills));
-    activeUnitColor = 'gray';
-    els.title.textContent = "Repàs Total";
-    els.subtitle.textContent = "Totes les unitats barrejades";
-} else {
-    const u = units[id];
-    activeQueue = [...u.drills];
-    els.title.textContent = u.title;
-    els.subtitle.textContent = u.desc;
-}
+        Object.values(units).forEach(u => activeQueue.push(...u.drills));
+        activeUnitColor = 'gray';
+        els.title.textContent = "Repàs Total";
+        els.subtitle.textContent = "Totes les unitats barrejades";
+    } else {
+        const u = units[id];
+        activeQueue = [...u.drills];
+        els.title.textContent = u.title;
+        els.subtitle.textContent = u.desc;
+    }
 
     activeQueue.sort(() => Math.random() - 0.5);
 
@@ -1050,6 +1049,12 @@ function init() {
     els.expView.classList.add('hidden');
     els.selector.classList.add('hidden');
     els.drillView.classList.remove('hidden');
+
+    // NEW: If special reading unit (e.g., Unit 0) has zero drills, immediately finish so it cannot stay "open"
+    if (units[id] && units[id].special && total === 0) {
+        finishDrill();
+        return;
+    }
 
     loadDrill();
 };

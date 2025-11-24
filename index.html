@@ -3,13 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CaTió: Verb Drills</title>
-    <link rel="icon" href="/favicon.ico" type="image/svg+xml" />
-    <link rel="alternate icon" href="/favicon.svg" />
+    <title>Repetidor Català: Verb Drills</title>
+    <link rel="icon" href="favicon.svg?v=1" type="image/svg+xml" sizes="any" />
+    <link rel="shortcut icon" href="favicon.ico?v=1" type="image/x-icon" />
+    <link rel="alternate icon" href="favicon.ico?v=1" />
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="styles.css">
 </head>
-<body class="min-h-screen flex flex-col items-center justify-center p-4 text-gray-800">
+<body class="min-h-screen flex flex-col items-center p-4 text-gray-800">
 
 <!-- Onboarding Modal (Appears first) -->
 <div id="onboarding-modal" class="fixed inset-0 flex items-center justify-center p-4 transition-opacity duration-300">
@@ -67,7 +68,7 @@
 </div>
 
 <!-- Explanation View (New) -->
-<div id="explanation-view" class="app-container w-full bg-white shadow-2xl rounded-3xl overflow-hidden hidden flex flex-col min-h-[600px] p-6 md:p-8">
+<div id="explanation-view" class="app-container w-full bg-white shadow-2xl rounded-3xl flex flex-col min-h-[600px] p-6 md:p-8 hidden"><!-- removed overflow-hidden -->
     <div class="flex-grow flex flex-col items-center text-center">
         <div class="w-16 h-16 rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm transition-theme" id="exp-icon-bg">
             📖
