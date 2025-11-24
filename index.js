@@ -958,7 +958,7 @@ function init() {
         const titleColor = isSpecial ? 'text-yellow-900' : 'text-gray-800';
         html += `
                 <div onclick="showExplanation(${id})" class="${containerClasses} rounded-2xl p-5 shadow-md hover:shadow-xl transition cursor-pointer transform hover:-translate-y-1 group relative overflow-hidden">
-                    ${isSpecial ? '<div class=\"absolute top-0 right-0 bg-yellow-400 text-yellow-900 text-[10px] font-bold px-2 py-1 rounded-bl-lg uppercase tracking-wider\">Start Here</div>' : ''}
+                    ${isSpecial ? '<div class=\"absolute top-0 right-0 bg-yellow-400 text-yellow-900 text-[10px] font-bold px-2 py-1 rounded-bl-lg uppercase tracking-wider\">U0</div>' : ''}
                     <div class="flex justify-between items-start">
                         <h3 class="text-xl font-bold ${titleColor} group-hover:text-${u.color}-600 transition-colors">${u.title}</h3>
                         ${!isSpecial ? `<span class="bg-${u.color}-100 text-${u.color}-700 text-xs font-bold px-2 py-1 rounded-full">U${id}</span>` : ''}
