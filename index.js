@@ -951,11 +951,17 @@ function init() {
     function renderUnits() {
     let html = '';
     for (const [id, u] of Object.entries(units)) {
-    html += `
-                <div onclick="showExplanation(${id})" class="bg-white rounded-2xl p-5 shadow-md border-l-8 hover:shadow-xl transition cursor-pointer transform hover:-translate-y-1 border-${u.color}-500 group">
+        const isSpecial = u.special;
+        const containerClasses = isSpecial
+            ? 'border-l-8 border-yellow-400 bg-yellow-50'
+            : `border-l-8 border-${u.color}-500 bg-white`;
+        const titleColor = isSpecial ? 'text-yellow-900' : 'text-gray-800';
+        html += `
+                <div onclick="showExplanation(${id})" class="${containerClasses} rounded-2xl p-5 shadow-md hover:shadow-xl transition cursor-pointer transform hover:-translate-y-1 group relative overflow-hidden">
+                    ${isSpecial ? '<div class=\"absolute top-0 right-0 bg-yellow-400 text-yellow-900 text-[10px] font-bold px-2 py-1 rounded-bl-lg uppercase tracking-wider\">Start Here</div>' : ''}
                     <div class="flex justify-between items-start">
-                        <h3 class="text-xl font-bold text-gray-800 group-hover:text-${u.color}-600 transition-colors">${u.title}</h3>
-                        <span class="bg-${u.color}-100 text-${u.color}-700 text-xs font-bold px-2 py-1 rounded-full">U${id}</span>
+                        <h3 class="text-xl font-bold ${titleColor} group-hover:text-${u.color}-600 transition-colors">${u.title}</h3>
+                        ${!isSpecial ? `<span class="bg-${u.color}-100 text-${u.color}-700 text-xs font-bold px-2 py-1 rounded-full">U${id}</span>` : ''}
                     </div>
                     <p class="text-gray-500 text-sm mt-2 leading-relaxed">${u.desc}</p>
                 </div>`;
@@ -983,20 +989,23 @@ function init() {
         initDrills();
         return;
     }
-
     const u = units[id];
     activeUnitColor = u.color;
-
     els.expTitle.textContent = u.title;
     els.expSubtitle.textContent = u.desc;
     els.expBody.innerHTML = u.explanation;
-
     els.expIconBg.className = `w-16 h-16 rounded-full flex items-center justify-center text-3xl mb-6 shadow-sm bg-${u.color}-100 text-${u.color}-600`;
     els.expBtn.className = `w-full py-4 px-6 text-white font-bold text-lg rounded-xl shadow-lg transition duration-200 hover:-translate-y-1 transform active:scale-95 bg-${u.color}-600 hover:bg-${u.color}-700`;
-
+    // Special unit 0 custom button text
+    if (u.special) {
+        els.expBtn.textContent = 'Ho he llegit! ✅';
+        els.expBtn.onclick = () => initDrills();
+    } else {
+        els.expBtn.textContent = 'Entesos! Comença els Exercicis';
+        els.expBtn.onclick = () => initDrills();
+    }
     els.selector.classList.add('hidden');
     els.expView.classList.remove('hidden');
-
     window.scrollTo(0,0);
 };
 
@@ -1320,32 +1329,38 @@ function init() {
     function finishDrill() {
     let nextUnitId = null;
     if (currentUnitId !== 'all') {
-    const possibleNext = parseInt(currentUnitId) + 1;
-    if (units[possibleNext]) nextUnitId = possibleNext;
-}
-
+        const possibleNext = parseInt(currentUnitId) + 1;
+        if (units[possibleNext]) nextUnitId = possibleNext;
+    }
     const restartArg = currentUnitId === 'all' ? "'all'" : currentUnitId;
     const cardColor = activeUnitColor;
-
-    els.card.innerHTML = `
+    const isSpecial = units[currentUnitId] && units[currentUnitId].special;
+    let content;
+    if (isSpecial) {
+        content = `
+                <div class="text-6xl mb-4">🎓</div>
+                <h3 class="text-2xl font-bold text-gray-800">Conceptes Clau Assolits!</h3>
+                <p class="text-lg mt-2 text-gray-600 mb-6">Ja estàs a punt per començar a practicar.</p>`;
+    } else {
+        content = `
                 <div class="text-6xl mb-4">🎉</div>
                 <h3 class="text-2xl font-bold text-gray-800">Unitat Completada!</h3>
-                <p class="text-lg mt-2 text-gray-600 mb-6">Resultat final: <span class="font-bold text-${cardColor}-600">${score} / ${total}</span></p>
-
-                <div class="flex flex-col gap-3 w-full max-w-xs mx-auto">
-                    <button onclick="showExplanation(${restartArg})" class="w-full py-3 px-4 bg-${cardColor}-100 text-${cardColor}-700 font-bold rounded-xl hover:bg-${cardColor}-200 transition-colors">
-                        🔄 Repetir Unitat
-                    </button>
-                    ${nextUnitId ? `
-                    <button onclick="showExplanation(${nextUnitId})" class="w-full py-3 px-4 bg-${cardColor}-600 text-white font-bold rounded-xl hover:bg-${cardColor}-700 transition-colors shadow-lg hover:-translate-y-0.5 transform">
-                        Següent Unitat ➡
-                    </button>` : ''}
-                    <button onclick="returnToSelector()" class="w-full py-3 px-4 text-gray-400 font-bold rounded-xl hover:text-gray-600 hover:bg-gray-50 transition-colors">
-                        Torna al Menú
-                    </button>
-                </div>
-            `;
-
+                <p class="text-lg mt-2 text-gray-600 mb-6">Resultat final: <span class="font-bold text-${cardColor}-600">${score} / ${total}</span></p>`;
+    }
+    els.card.innerHTML = `
+            ${content}
+            <div class="flex flex-col gap-3 w-full max-w-xs mx-auto">
+                <button onclick="showExplanation(${restartArg})" class="w-full py-3 px-4 bg-${cardColor}-100 text-${cardColor}-700 font-bold rounded-xl hover:bg-${cardColor}-200 transition-colors">
+                    🔄 Repetir Unitat
+                </button>
+                ${nextUnitId ? `
+                <button onclick="showExplanation(${nextUnitId})" class="w-full py-3 px-4 bg-${cardColor}-600 text-white font-bold rounded-xl hover:bg-${cardColor}-700 transition-colors shadow-lg hover:-translate-y-0.5 transform">
+                    Següent Unitat ➡
+                </button>` : ''}
+                <button onclick="returnToSelector()" class="w-full py-3 px-4 text-gray-400 font-bold rounded-xl hover:text-gray-600 hover:bg-gray-50 transition-colors">
+                    Torna al Menú
+                </button>
+            </div>`;
     els.btn.classList.add('hidden');
     els.input.classList.add('hidden');
     els.feedback.classList.add('hidden');
