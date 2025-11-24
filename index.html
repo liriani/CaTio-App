@@ -55,10 +55,10 @@
                 onclick="showExplanation('all')"
                 class="w-full p-6 bg-gray-800 text-white rounded-2xl shadow-lg hover:bg-gray-900 transition duration-200 flex items-center justify-between group"
         >
-            <div class="text-left">
-                <h3 class="text-xl font-bold">Mode Repàs Total</h3>
-                <p class="text-gray-400 text-sm mt-1">Barreja de les 18 unitats (200+ exercicis)</p>
-            </div>
+            <span class="text-left block">
+                <span class="text-xl font-bold block">Mode Repàs Total</span>
+                <span class="text-gray-400 text-sm mt-1 block">Barreja de les 18 unitats (200+ exercicis)</span>
+            </span>
             <span class="text-2xl group-hover:translate-x-2 transition-transform">🚀</span>
         </button>
     </div>
@@ -114,13 +114,13 @@
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12" />
                 </svg>
             </button>
-            <span id="user-id" class="text-[10px] uppercase tracking-wider opacity-60 font-mono">Loading...</span>
+            <span id="user-id" class="text-[10px] uppercase tracking-wider opacity-60 font-mono">Demo</span>
         </div>
     </header>
 
     <!-- Progress Bar -->
     <div class="h-1.5 w-full bg-gray-100">
-        <div id="progress-bar" class="h-full bg-green-500 transition-all duration-500 ease-out" style="width: 0%;"></div>
+        <div id="progress-bar" class="h-full bg-green-500 transition-all duration-500 ease-out" style="width: 0;"></div>
     </div>
 
     <!-- Main Drill Area -->
@@ -149,6 +149,7 @@
                     type="text"
                     id="user-input"
                     placeholder="Escriu la resposta..."
+                    aria-label="Resposta de l'exercici"
                     class="w-full p-4 text-lg border-2 border-gray-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-indigo-100 focus:border-indigo-500 transition-all duration-200 text-center font-medium placeholder-gray-300 disabled:bg-gray-50 disabled:text-gray-400"
                     disabled
                     autocomplete="off"
@@ -157,14 +158,25 @@
 
             <div id="feedback" class="hidden p-4 rounded-xl text-center font-bold animate-fade-in"></div>
 
-            <button
-                    id="action-button"
-                    class="w-full py-4 px-6 bg-indigo-600 text-white font-bold text-lg rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 disabled:opacity-50 disabled:transform-none disabled:shadow-none"
-                    onclick="handleActionButton()"
-                    disabled
-            >
-                Comprova
-            </button>
+            <!-- Buttons Row -->
+            <div class="flex gap-3">
+                <button
+                        id="give-up-button"
+                        class="w-1/3 py-4 font-bold text-gray-500 bg-gray-100 rounded-xl hover:bg-gray-200 transition-colors disabled:opacity-50 text-sm md:text-base flex items-center justify-center gap-1"
+                        onclick="handleGiveUp()"
+                        disabled
+                >
+                    <span>🤷</span> <span class="hidden md:inline">No ho sé</span><span class="md:hidden">Ajuda</span>
+                </button>
+                <button
+                        id="action-button"
+                        class="w-2/3 py-4 px-6 bg-indigo-600 text-white font-bold text-lg rounded-xl shadow-lg hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 transition-all duration-200 disabled:opacity-50 disabled:transform-none disabled:shadow-none"
+                        onclick="handleActionButton()"
+                        disabled
+                >
+                    Comprova
+                </button>
+            </div>
         </div>
 
         <!-- Reference Table Toggle -->
@@ -182,10 +194,10 @@
                         <tbody class="divide-y divide-gray-100">
                         <!-- Rows -->
                         <tr class="hover:bg-gray-50"><td class="py-3 px-4 font-bold text-gray-900 bg-gray-50 sticky left-0 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]">Jo</td><td>sóc/estic</td><td>vaig anar</td><td>he fet</td><td>podré</td><td>era/anava</td><td>faria/podria</td><td>vulgui/sigui</td><td>volgués</td><td>hauria fet</td><td>tinc/he</td><td>puc/vull</td><td>vaig/vinc</td><td>faig/dic</td><td>parlo/em rento</td></tr>
-                        <tr class="hover:bg-gray-50"><td class="py-3 px-4 font-bold text-gray-900 bg-gray-50 sticky left-0 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]">Tu</td><td>ets/estàs</td><td>vas anar</td><td>has fet</td><td>podràs</td><td>eres/anaves</td><td>faries/podries</td><td>vulguis/siguis</td><td>volguessis</td><td>hauries fet</td><td>tens/has</td><td>pots/vols</td><td>vas/vens</td><td>fais(fas)/dius</td><td>parles/et rentes</td></tr>
+                        <tr class="hover:bg-gray-50"><td class="py-3 px-4 font-bold text-gray-900 bg-gray-50 sticky left-0 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]">Tu</td><td>ets/estàs</td><td>vas anar</td><td>has fet</td><td>podràs</td><td>eres/anaves</td><td>faries/podries</td><td>vulguis/siguis</td><td>volguessis</td><td>hauries fet</td><td>tens/has</td><td>pots/vols</td><td>vas/vens</td><td>fas/dius</td><td>parles/et rentes</td></tr>
                         <tr class="hover:bg-gray-50"><td class="py-3 px-4 font-bold text-gray-900 bg-gray-50 sticky left-0 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]">Ell/Ella</td><td>és/està</td><td>va anar</td><td>ha fet</td><td>podrà</td><td>era/anava</td><td>faria/podria</td><td>vulgui/sigui</td><td>volgués</td><td>hauria fet</td><td>té/ha</td><td>pot/vol</td><td>va/veu</td><td>fa/diu</td><td>parla/es renta</td></tr>
                         <tr class="hover:bg-gray-50"><td class="py-3 px-4 font-bold text-gray-900 bg-gray-50 sticky left-0 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]">Nosaltres</td><td>som/estem</td><td>vam anar</td><td>hem fet</td><td>podrem</td><td>érem/anàvem</td><td>faríem/podríem</td><td>vulguem/siguem</td><td>volguéssim</td><td>hauríem fet</td><td>tenim/hem</td><td>podem/volem</td><td>anem/venim</td><td>fem/diem</td><td>parlem/ens rentem</td></tr>
-                        <tr class="hover:bg-gray-50"><td class="py-3 px-4 font-bold text-gray-900 bg-gray-50 sticky left-0 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]">Vosaltres</td><td>sou/esteu</td><td>vau anar</td><td>heu fet</td><td>podreu</td><td>éreu/anàveu</td><td>faríeu/podríeu</td><td>vulgueu/sigueu</td><td>volguéssiu</td><td>hauríeu fet</td><td>teniu/heu</td><td>podeu/voleu</td><td>aneu/veniu</td><td>feu/dieueu</td><td>parleu/us renteu</td></tr>
+                        <tr class="hover:bg-gray-50"><td class="py-3 px-4 font-bold text-gray-900 bg-gray-50 sticky left-0 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]">Vosaltres</td><td>sou/esteu</td><td>vau anar</td><td>heu fet</td><td>podreu</td><td>éreu/anàveu</td><td>faríeu/podríeu</td><td>vulgueu/sigueu</td><td>volguéssiu</td><td>hauríeu fet</td><td>teniu/heu</td><td>podeu/voleu</td><td>aneu/veniu</td><td>feu/dieu</td><td>parleu/us renteu</td></tr>
                         <tr class="hover:bg-gray-50"><td class="py-3 px-4 font-bold text-gray-900 bg-gray-50 sticky left-0 shadow-[2px_0_5px_-2px_rgba(0,0,0,0.1)]">Ells/Elles</td><td>són/estan</td><td>van anar</td><td>han fet</td><td>podran</td><td>eren/anaven</td><td>farien/podrien</td><td>vulguin/siguin</td><td>volguessin</td><td>haurien fet</td><td>tenen/han</td><td>poden/volen</td><td>van/vénen</td><td>fan/diuen</td><td>parlen/es renten</td></tr>
                         </tbody>
                     </table>
@@ -195,41 +207,11 @@
     </main>
 </div>
 
-<!-- Firebase SDK -->
-<script type="module">
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
-    import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
-    import { getFirestore } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
-
-    const appId = typeof __app_id !== 'undefined' ? __app_id : 'default-app-id';
-    const firebaseConfig = typeof __firebase_config !== 'undefined' ? JSON.parse(__firebase_config) : null;
-    const initialAuthToken = typeof __initial_auth_token !== 'undefined' ? __initial_auth_token : null;
-
-    // Basic initialization - robust to missing config for pure UI testing
-    if (firebaseConfig) {
-        try {
-            const app = initializeApp(firebaseConfig);
-            const auth = getAuth(app);
-            const db = getFirestore(app);
-
-            if (initialAuthToken) {
-                signInWithCustomToken(auth, initialAuthToken);
-            } else {
-                signInAnonymously(auth);
-            }
-
-            onAuthStateChanged(auth, (user) => {
-                if (user) {
-                    document.getElementById('user-id').textContent = user.uid.substring(0, 6);
-                }
-            });
-        } catch (e) {
-            console.error("Firebase Init Error:", e);
-            document.getElementById('user-id').textContent = "Offline";
-        }
-    } else {
-        document.getElementById('user-id').textContent = "Demo Mode";
-    }
+<script>
+  (function(){
+    const el = document.getElementById('user-id');
+    if(el && !el.textContent.trim()) el.textContent = 'Demo';
+  })();
 </script>
 
 <script src="./index.js" defer></script>
