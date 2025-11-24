@@ -1,4 +1,120 @@
 const units = {
+    0: {
+        title: "👋 BÀSICS: Comença Aquí",
+        color: "yellow",
+        desc: "Com funciona el català? Llegeix això abans de començar.",
+        special: true, // Flag to identify this is a reading-only unit
+        explanation: `
+                    <div class="space-y-6">
+                        
+                        <!-- Intro -->
+                        <div class="bg-yellow-50 p-4 rounded-xl border border-yellow-200">
+                            <h3 class="text-yellow-800 font-bold text-lg mb-2">Benvingut/da al Català! 🏰</h3>
+                            <p class="text-sm text-yellow-900 leading-relaxed">
+                                El català és una llengua romànica (cosina del francès, castellà i italià). 
+                                Abans de començar a fer exercicis, aquí tens les <strong>3 Regles d'Or</strong> per entendre com funciona tot.
+                            </p>
+                        </div>
+
+                        <!-- 1. PRONOUNS -->
+                        <div>
+                            <h4 class="text-gray-800 font-bold text-xl mb-3 flex items-center gap-2">
+                                <span class="bg-indigo-100 text-indigo-700 w-8 h-8 flex items-center justify-center rounded-full text-sm">1</span>
+                                Els Actors (Pronoms)
+                            </h4>
+                            <p class="text-sm text-gray-600 mb-4">En català, tenim 6 "persones" principals. És crucial aprendre'ls perquè tot el sistema es basa en ells.</p>
+                            
+                            <div class="grid grid-cols-2 gap-3">
+                                <div class="visual-card bg-gray-50 border-gray-200 text-left">
+                                    <span class="text-xs uppercase text-gray-400 font-bold block mb-1">Singular (1 persona)</span>
+                                    <ul class="space-y-2 text-sm">
+                                        <li>🙋 <strong>Jo</strong> (I)</li>
+                                        <li>🫵 <strong>Tu</strong> (You)</li>
+                                        <li>👉 <strong>Ell / Ella</strong> (He / She)</li>
+                                    </ul>
+                                </div>
+                                <div class="visual-card bg-gray-50 border-gray-200 text-left">
+                                    <span class="text-xs uppercase text-gray-400 font-bold block mb-1">Plural (Grup)</span>
+                                    <ul class="space-y-2 text-sm">
+                                        <li>👥 <strong>Nosaltres</strong> (We)</li>
+                                        <li>🫵🫵 <strong>Vosaltres</strong> (You all)</li>
+                                        <li>👉👉 <strong>Ells / Elles</strong> (They)</li>
+                                    </ul>
+                                </div>
+                            </div>
+                            <div class="mt-3 text-xs text-gray-500 bg-blue-50 p-2 rounded border border-blue-100">
+                                💡 <strong>Truc:</strong> Sovint no diem el pronom. Com que el verb canvia, ja sabem qui parla. 
+                                <br><em>"Sóc metge"</em> (ja sabem que és "Jo").
+                            </div>
+                        </div>
+
+                        <!-- 2. GENDER -->
+                        <div>
+                            <h4 class="text-gray-800 font-bold text-xl mb-3 flex items-center gap-2">
+                                <span class="bg-pink-100 text-pink-700 w-8 h-8 flex items-center justify-center rounded-full text-sm">2</span>
+                                El Gènere (Masculí/Femení)
+                            </h4>
+                            <p class="text-sm text-gray-600 mb-4">Tot té gènere. No només les persones, sinó també les taules i els cotxes. Els articles (el, la) t'ajuden a saber-ho.</p>
+
+                            <table class="w-full text-center border-collapse bg-white rounded-lg overflow-hidden shadow-sm exp-table mb-4">
+                                <thead class="bg-gray-100 text-gray-800">
+                                    <tr><th></th><th>Masculí (Un noi)</th><th>Femení (Una noia)</th></tr>
+                                </thead>
+                                <tbody class="text-gray-700">
+                                    <tr>
+                                        <td class="font-bold text-gray-400 text-xs">Singular</td>
+                                        <td><strong>El</strong> llibre</td>
+                                        <td><strong>La</strong> taula</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="font-bold text-gray-400 text-xs">Plural</td>
+                                        <td><strong>Els</strong> llibres</td>
+                                        <td><strong>Les</strong> taules</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <!-- 3. CONJUGATION -->
+                        <div>
+                            <h4 class="text-gray-800 font-bold text-xl mb-3 flex items-center gap-2">
+                                <span class="bg-green-100 text-green-700 w-8 h-8 flex items-center justify-center rounded-full text-sm">3</span>
+                                El Verb Camaleó
+                            </h4>
+                            <p class="text-sm text-gray-600 mb-4">Aquí ve la "màgia" (i la dificultat). Els verbs es disfressen segons qui fa l'acció. Això es diu <strong>Conjugació</strong>.</p>
+                            
+                            <div class="visual-card bg-indigo-50 border-indigo-200">
+                                <div class="flex justify-between items-center text-sm px-4">
+                                    <div class="text-center">
+                                        <span class="block text-2xl mb-1">🎭</span>
+                                        <strong>Jo</strong> cant<span class="text-indigo-600 font-bold">o</span>
+                                    </div>
+                                    <div class="text-gray-300">➜</div>
+                                    <div class="text-center">
+                                        <span class="block text-2xl mb-1">🎤</span>
+                                        <strong>Tu</strong> cant<span class="text-indigo-600 font-bold">es</span>
+                                    </div>
+                                    <div class="text-gray-300">➜</div>
+                                    <div class="text-center">
+                                        <span class="block text-2xl mb-1">🎼</span>
+                                        <strong>Ell</strong> cant<span class="text-indigo-600 font-bold">a</span>
+                                    </div>
+                                </div>
+                                <p class="mt-4 text-xs text-indigo-800">
+                                    La base és "Cantar", però el final canvia. <br>
+                                    En aquest curs practicarem això fins que et surti sol!
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- CONCLUSION -->
+                        <div class="text-center pt-4">
+                            <p class="text-gray-600 text-sm font-medium">Estàs preparat/da? Comencem amb el verb més important: SER i ESTAR.</p>
+                        </div>
+                    </div>
+                `,
+        drills: [] // No drills for Unit 0
+    },
     1: {
     title: "Ser & Estar",
     color: "indigo",
