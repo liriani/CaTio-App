@@ -3,7 +3,7 @@ const units = {
         title: "👋 BÀSICS: Comença Aquí",
         color: "yellow",
         desc: "Com funciona el català? Llegeix això abans de començar.",
-        special: true, // Flag to identify this is a reading-only unit
+        special: true,
         explanation: `
                     <div class="space-y-6">
                         
@@ -977,12 +977,12 @@ function init() {
 
     window.showExplanation = (id) => {
     currentUnitId = id;
-
+    els.drillView.classList.add('hidden');
     if (id === 'all') {
-    activeUnitColor = 'gray';
-    initDrills();
-    return;
-}
+        activeUnitColor = 'gray';
+        initDrills();
+        return;
+    }
 
     const u = units[id];
     activeUnitColor = u.color;
