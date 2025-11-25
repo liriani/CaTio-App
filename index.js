@@ -113,7 +113,7 @@ const units = {
                         </div>
                     </div>
                 `,
-        drills: [] // No drills for Unit 0
+        drills: []
     },
     1: {
     title: "Ser & Estar",
@@ -1050,7 +1050,6 @@ function init() {
     els.selector.classList.add('hidden');
     els.drillView.classList.remove('hidden');
 
-    // NEW: If special reading unit (e.g., Unit 0) has zero drills, immediately finish so it cannot stay "open"
     if (units[id] && units[id].special && total === 0) {
         finishDrill();
         return;
@@ -1374,7 +1373,6 @@ function init() {
 
     function cleanString(str) {
     return str.toLowerCase()
-    // Simplified regex: removed duplicate '!' and redundant escapes
     .replace(/[.,\/#!$%^*;:{}=\-_`~()?’]/g, "")
     .replace(/\s{2,}/g, " ")
     .trim();
