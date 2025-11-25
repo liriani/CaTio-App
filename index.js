@@ -2,7 +2,7 @@ const units = {
     0: {
         title: "👋 BÀSICS: Comença Aquí",
         color: "yellow",
-        desc: "Com funciona el català? Llegeix això abans de començar.",
+        desc: "Com funciona el català?",
         special: true,
         explanation: `
                     <div class="space-y-6">
