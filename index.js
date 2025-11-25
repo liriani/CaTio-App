@@ -1252,7 +1252,7 @@ function init() {
 
     els.giveUpBtn.disabled = false;
     els.giveUpBtn.classList.remove('opacity-50', 'cursor-not-allowed', 'hidden');
-    els.giveUpBtn.innerHTML = '<span>🤷</span> <span class="hidden md:inline">No ho sé</span><span class="md:hidden">Ajuda</span>';
+    els.giveUpBtn.innerHTML = '<span>🤷</span> <span class="hidden md:inline">No ho sé</span><span class="md:hidden">No ho sé</span>';
 
     updateProgress();
 }
